@@ -1,6 +1,6 @@
 pipeline { 
     environment { 
-        registry = "adigade101/test-repo" 
+        registry = "adigade101/test-repo1" 
         registryCredential = 'dockerhub_id' 
         dockerImage = '' 
     }
@@ -8,7 +8,7 @@ pipeline {
     stages { 
         stage('Cloning our Git') { 
             steps { 
-                git branch:'main', url: 'https://github.com/nishanthkumarpathi/socgen23mar22.git' 
+                git branch:'main', url: 'https://github.com/adigade101/test-repo1.git' 
             }
         } 
         stage('Building our image') { 
