@@ -1,0 +1,43 @@
+pipeline { 
+    environment { 
+        registry = "adigade101/test-repo" 
+        registryCredential = 'dockerhub_id' 
+        dockerImage = '' 
+    }
+    agent any 
+    stages { 
+        stage('Cloning our Git') { 
+            steps { 
+                git branch:'main', url: 'https://github.com/nishanthkumarpathi/socgen23mar22.git' 
+            }
+        } 
+        stage('Building our image') { 
+            steps { 
+                script { 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                }
+            }
+        } 
+        stage('Deploy our image') { 
+            steps { 
+                script { 
+                    docker.withRegistry( '', registryCredential ) { 
+                        dockerImage.push() 
+                    }
+                } 
+            }
+        } 
+        stage('Cleaning up') { 
+            steps { 
+                sh "docker rmi $registry:$BUILD_NUMBER" 
+            }
+        } 
+        stage('Deploy to Kubernetes') {
+            steps {
+                echo 'Deploy the App using kubernetes '
+                sh "sed -i 's/TAG/$BUILD_NUMBER/g' python-app.yaml"
+                sh "kubectl apply -f python-app.yaml --image=$registry:$BUILD_NUMBER"
+            }
+        }
+    }
+}
