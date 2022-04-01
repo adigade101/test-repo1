@@ -36,9 +36,9 @@ pipeline {
             steps {
                 echo 'Deploy the App using Kubectl'
                 //sh "sed -i 's/BUILDNUMBER/$BUILD_NUMBER/g' python-flask-deployment.yml"
-                sh "sed -i 's/DEPLOYMENTENVIRONMENT/development/g' python-app.yml"
-                sh "sed -i 's/TAG/$BUILD_NUMBER/g' python-app.yml"
-                sh "kubectl apply -f python-app.yml"
+                sh "sed -i 's/DEPLOYMENTENVIRONMENT/development/g' python-app.yaml"
+                sh "sed -i 's/TAG/$BUILD_NUMBER/g' python-app.yaml"
+                sh "kubectl apply -f python-app.yaml"
             }
         }
         stage('Promote to Production') {
@@ -56,9 +56,9 @@ pipeline {
         stage('Deploy to Kubernetes Production Environment') {
             steps {
                 echo 'Deploy the App using Kubectl'
-                sh "sed -i 's/development/production/g' python-app.yml"
-                sh "sed -i 's/TAG/$BUILD_NUMBER/g' python-app.yml"
-                sh "kubectl apply -f python-app.yml"
+                sh "sed -i 's/development/production/g' python-app.yaml"
+                sh "sed -i 's/TAG/$BUILD_NUMBER/g' python-app.yaml"
+                sh "kubectl apply -f python-app.yaml"
             }
         }
 
