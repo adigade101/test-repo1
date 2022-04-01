@@ -32,12 +32,35 @@ pipeline {
                 sh "docker rmi $registry:$BUILD_NUMBER" 
             }
         } 
-        stage('Deploy to Kubernetes') {
+        stage('Deploy to Kubernetes Dev Environment') {
             steps {
-                echo 'Deploy the App using kubernetes '
-                sh "sed -i 's/TAG/$BUILD_NUMBER/g' python-app.yaml"
-                sh "kubectl apply -f python-app.yaml --image=$registry:$BUILD_NUMBER"
+                echo 'Deploy the App using Kubectl'
+                //sh "sed -i 's/BUILDNUMBER/$BUILD_NUMBER/g' python-flask-deployment.yml"
+                sh "sed -i 's/DEPLOYMENTENVIRONMENT/development/g' python-app.yml"
+                sh "sed -i 's/TAG/$BUILD_NUMBER/g' python-app.yml"
+                sh "kubectl apply -f python-app.yml"
             }
         }
+        stage('Promote to Production') {
+            steps {
+                echo "Promote to production"
+            }
+            input {
+                message "Do you want to Promote the Build to Production"
+                ok "Ok"
+                submitter "adityagade1992@gmail.com"
+                submitterParameter "whoIsSubmitter"
+                
+            }
+        }
+        stage('Deploy to Kubernetes Production Environment') {
+            steps {
+                echo 'Deploy the App using Kubectl'
+                sh "sed -i 's/development/production/g' python-app.yml"
+                sh "sed -i 's/TAG/$BUILD_NUMBER/g' python-app.yml"
+                sh "kubectl apply -f python-app.yml"
+            }
+        }
+
     }
 }
