@@ -10,12 +10,7 @@ pipeline {
             steps { 
                 git branch:'main', url: 'https://github.com/adigade101/test-repo1.git' 
             }
-        } 
-        stage('scanning') { 
-            steps { 
-                sh "docker run --rm -v "$(pwd):/proj" dxa4481/trufflehog file:///proj" 
-            }
-        } 
+        }  
         stage('Building our image') { 
             steps { 
                 script { 
