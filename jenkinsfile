@@ -3,6 +3,7 @@ pipeline {
         registry = "adigade101/test-repo1" 
         registryCredential = 'dockerhub_id' 
         dockerImage = '' 
+        pwd = /home/rps/Desktop
     }
     agent any 
     stages { 
@@ -10,7 +11,12 @@ pipeline {
             steps { 
                 git branch:'main', url: 'https://github.com/adigade101/test-repo1.git' 
             }
-        }  
+        } 
+        stage('SCANNING') { 
+            steps { 
+                sh 'docker run --rm -v "$(pwd):/proj" dxa4481/trufflehog file:///proj | exit 0'
+            }
+        } 
         stage('Building our image') { 
             steps { 
                 script { 
