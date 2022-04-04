@@ -3,7 +3,6 @@ pipeline {
         registry = "adigade101/test-repo1" 
         registryCredential = 'dockerhub_id' 
         dockerImage = '' 
-        pwd = /home/rps/Desktop
     }
     agent any 
     stages { 
