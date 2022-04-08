@@ -11,11 +11,10 @@ pipeline {
                 git branch:'master', url: 'https://github.com/adigade101/test-repo1.git' 
             }
         } 
-        stage('SCA using flake8') {
+        stage('SCA using dockerlint') {
             steps {
-                echo 'Scanning the Source Code using flake8'
-                sh 'python3 -m flake8 . --format=json --output-file flake8.json --exit-zero'
-                sh 'cat flake8.json'
+                echo 'Scanning the Dockerfile'
+                sh 'docker run -it --rm -v "$PWD/Dockerfile":/Dockerfile:ro redcoolbeans/dockerlint'
             }
         }
         stage('Building our image') { 
