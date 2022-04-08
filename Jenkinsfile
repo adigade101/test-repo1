@@ -14,7 +14,6 @@ pipeline {
         stage('SCA using flake8') {
             steps {
                 echo 'Scanning the Source Code using flake8'
-                sh 'pip install flake8'
                 sh 'flake8 /home/rps/Desktop/project1/app.py --format=json --output-file test.json --exit-zero'
             }
         }
