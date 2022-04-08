@@ -8,7 +8,7 @@ pipeline {
     stages { 
         stage('Cloning our Git') { 
             steps { 
-                git branch:'main', url: 'https://github.com/adigade101/test-repo1.git' 
+                git branch:'master', url: 'https://github.com/adigade101/test-repo1.git' 
             }
         } 
         stage('SCA using flake8') {
