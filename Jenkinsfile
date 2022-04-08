@@ -14,7 +14,7 @@ pipeline {
         stage('SCA using dockerlint') {
             steps {
                 echo 'Scanning the Dockerfile'
-                sh 'docker run -it --rm -v "$PWD/Dockerfile":/Dockerfile:ro redcoolbeans/dockerlint'
+                sh 'docker run -it --rm -v "/home/rps/Desktop/project1/Dockerfile":/Dockerfile:ro redcoolbeans/dockerlint'
             }
         }
         stage('Building our image') { 
