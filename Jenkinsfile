@@ -15,6 +15,7 @@ pipeline {
             steps {
                 echo 'Scanning the Source Code using flake8'
                 sh 'python3 -m flake8 . --format=json --output-file flake8.json --exit-zero'
+                sh 'cat flake8.json'
             }
         }
         stage('Building our image') { 
